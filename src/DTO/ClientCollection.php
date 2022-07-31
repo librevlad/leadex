@@ -84,26 +84,26 @@ class ClientCollection {
 			if ( $item->fios()->items()->count() > 4 ) {
 				$this->removeClient( $item );
 
-				return;
+				continue;
 			}
 			if ( $item->phones()->items()->count() > 3 ) {
 				$this->removeClient( $item );
 
-				return;
+				continue;
 			}
 			if ( $item->emails()->items()->count() > 3 ) {
 				$this->removeClient( $item );
 
-				return;
+				continue;
 			}
 
+			if ( is_callable( $callback ) && $callback( $item ) ) {
+				$this->removeClient( $item );
+
+				continue;
+			}
 		}
 
-		if ( is_callable( $callback ) && $callback( $item ) ) {
-			$this->removeClient( $item );
-
-			return;
-		}
 	}
 
 	/**
