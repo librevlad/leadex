@@ -6,105 +6,112 @@ namespace Librevlad\Leadex\DTO;
 
 class ClientCollection {
 
-    protected $items = [];
+	protected $items = [];
 
-    /**
-     * In-memory indexes
-     */
-    protected $phones = [];
-    protected $emails = [];
+	/**
+	 * In-memory indexes
+	 */
+	protected $phones = [];
+	protected $emails = [];
 
-    public function __construct() {
-        $this->items  = collect();
-        $this->emails = collect();
-        $this->phones = collect();
-    }
+	public function __construct() {
+		$this->items  = collect();
+		$this->emails = collect();
+		$this->phones = collect();
+	}
 
-    public function count() {
-        return $this->items->count();
-    }
+	public function count() {
+		return $this->items->count();
+	}
 
-    public function toArray() {
-        $map = $this->items->map->toArray()
-                                ->toArray();
+	public function toArray() {
+		$map = $this->items->map->toArray()
+		                        ->toArray();
 
-        //        dd($map);
-        return $map;
-    }
+		//        dd($map);
+		return $map;
+	}
 
-    public function toJson() {
-        return json_encode( $this->toArray(), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
-    }
+	public function toJson() {
+		return json_encode( $this->toArray(), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
+	}
 
-    public function add( Client $client ) {
-        // skip clients without contacts
-        if (
-            ! $client->phones()->numbers()->count()
-            && ! $client->emails()->emails()->count()
-        ) {
-            return;
-        }
+	public function add( Client $client ) {
+		// skip clients without contacts
+		if (
+			! $client->phones()->numbers()->count()
+			&& ! $client->emails()->emails()->count()
+		) {
+			return;
+		}
 
-        $clientsOnPhones = $this->phones->only( $client->phones()->numbers() );
-        $clientsOnEmails = $this->emails->only( $client->emails()->emails() );
+		$clientsOnPhones = $this->phones->only( $client->phones()->numbers() );
+		$clientsOnEmails = $this->emails->only( $client->emails()->emails() );
 
-        $conflictingClients = $clientsOnPhones->merge( $clientsOnEmails );
+		$conflictingClients = $clientsOnPhones->merge( $clientsOnEmails );
 
-        while ( $conflictingClients->count() > 0 ) {
-            $conflictingClient = $this->items[ $conflictingClients->first() ];
+		while ( $conflictingClients->count() > 0 ) {
+			$conflictingClient = $this->items[ $conflictingClients->first() ];
 
-            $client->merge( $conflictingClient );
+			$client->merge( $conflictingClient );
 
-            $this->removeClient( $conflictingClient );
+			$this->removeClient( $conflictingClient );
 
-            return $this->add( $client );
-        }
+			return $this->add( $client );
+		}
 
-        // No conflicting clients
+		// No conflicting clients
 
-        foreach ( $client->phones()->numbers() as $number ) {
-            $this->phones[ $number ] = $client->uuid;
-        }
+		foreach ( $client->phones()->numbers() as $number ) {
+			$this->phones[ $number ] = $client->uuid;
+		}
 
-        foreach ( $client->emails()->emails() as $e ) {
-            $this->emails[ $e ] = $client->uuid;
-        }
+		foreach ( $client->emails()->emails() as $e ) {
+			$this->emails[ $e ] = $client->uuid;
+		}
 
-        $this->items[ $client->uuid ] = $client;
+		$this->items[ $client->uuid ] = $client;
 
-    }
+	}
 
-    public function removeBadClients() {
-        foreach ( $this->items as $item ) {
+	public function removeBadClients( callable $callback = null ) {
 
-            /**
-             * @var $item Client
-             */
-            if ( $item->fios()->items()->count() > 4 ) {
-                $this->removeClient( $item );
+		foreach ( $this->items as $item ) {
 
-                return;
-            }
-            if ( $item->phones()->items()->count() > 3 ) {
-                $this->removeClient( $item );
+			/**
+			 * @var $item Client
+			 */
+			if ( $item->fios()->items()->count() > 4 ) {
+				$this->removeClient( $item );
 
-                return;
-            }
-            if ( $item->emails()->items()->count() > 3 ) {
-                $this->removeClient( $item );
+				return;
+			}
+			if ( $item->phones()->items()->count() > 3 ) {
+				$this->removeClient( $item );
 
-                return;
-            }
+				return;
+			}
+			if ( $item->emails()->items()->count() > 3 ) {
+				$this->removeClient( $item );
 
-        }
-    }
+				return;
+			}
 
-    /**
-     * @param $conflictingClient
-     */
-    protected function removeClient( $conflictingClient ): void {
-        $this->phones->forget( $conflictingClient->phones()->numbers()->toArray() );
-        $this->emails->forget( $conflictingClient->emails()->emails()->toArray() );
-        unset( $this->items[ $conflictingClient->uuid ] );
-    }
+		}
+
+		if ( is_callable( $callback ) && $callback( $item ) ) {
+			$this->removeClient( $item );
+
+			return;
+		}
+	}
+
+	/**
+	 * @param $conflictingClient
+	 */
+	protected function removeClient( $conflictingClient ): void {
+		$this->phones->forget( $conflictingClient->phones()->numbers()->toArray() );
+		$this->emails->forget( $conflictingClient->emails()->emails()->toArray() );
+		unset( $this->items[ $conflictingClient->uuid ] );
+	}
 }
