@@ -9,7 +9,7 @@ use Validator;
 class ZipNormalizer extends Normalizer {
 
     protected function normalize( $v ) {
-        return (int) abs( substr( trim( $v ), 0, 6 ));
+        return (int) abs( (int) substr( trim( $v ), 0, 6 ));
     }
 
     protected function validate( $v ) {
