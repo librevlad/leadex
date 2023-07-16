@@ -15,11 +15,11 @@ class BirthYear extends ScalarDTO {
 	public function getNormalizer() {
 		// 4 цифр
 		$norm = new InlineNormalizer( $this->data, function ( $data ) {
-			$data[ 'birth_year' ] = ( new BirthYearNormalizer( $data[ 'birth_year' ] ) )->finalValue();
+			$data = ( new BirthYearNormalizer( $data ) )->finalValue();
 
 			return $data;
 		}, function ( $data ) {
-			return ( new BirthYearNormalizer( $data[ 'birth_year' ] ) )->normalizedIsValid();
+			return ( new BirthYearNormalizer( $data ) )->normalizedIsValid();
 		} );
 
 		return $norm;

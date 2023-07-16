@@ -14,11 +14,11 @@ class Inn extends ScalarDTO {
 	public function getNormalizer() {
 		// 11 цифр
 		$norm = new InlineNormalizer( $this->data, function ( $data ) {
-			$data[ 'inn' ] = ( new InnNormalizer( $data[ 'inn' ] ) )->finalValue();
+			$data = ( new InnNormalizer( $data ) )->finalValue();
 
 			return $data;
 		}, function ( $data ) {
-			return ( new InnNormalizer( $data[ 'inn' ] ) )->normalizedIsValid();
+			return ( new InnNormalizer( $data ) )->normalizedIsValid();
 		} );
 
 		return $norm;

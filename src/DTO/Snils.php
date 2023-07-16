@@ -13,11 +13,11 @@ class Snils extends ScalarDTO {
 	public function getNormalizer() {
 		// 11 цифр
 		$norm = new InlineNormalizer( $this->data, function ( $data ) {
-			$data[ 'snils' ] = ( new SnilsNormalizer( $data[ 'snils' ] ) )->finalValue();
+			$data = ( new SnilsNormalizer( $data ) )->finalValue();
 
 			return $data;
 		}, function ( $data ) {
-			return ( new SnilsNormalizer( $data[ 'snils' ] ) )->normalizedIsValid();
+			return ( new SnilsNormalizer( $data ) )->normalizedIsValid();
 		} );
 
 		return $norm;
