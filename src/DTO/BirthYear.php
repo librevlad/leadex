@@ -5,6 +5,7 @@ namespace Librevlad\Leadex\DTO;
 
 
 use Librevlad\Leadex\DTO\Concerns\HasNormalizerClass;
+use Librevlad\Leadex\Normalizers\BirthYearNormalizer;
 use Librevlad\Leadex\Normalizers\InnNormalizer;
 use Librevlad\Leadex\Normalizers\SnilsNormalizer;
 use Librevlad\Leadex\Normalizers\InlineNormalizer;
@@ -18,7 +19,7 @@ class BirthYear extends ScalarDTO {
 
 			return $data;
 		}, function ( $data ) {
-			return ( new InnNormalizer( $data[ 'birth_year' ] ) )->normalizedIsValid();
+			return ( new BirthYearNormalizer( $data[ 'birth_year' ] ) )->normalizedIsValid();
 		} );
 
 		return $norm;
