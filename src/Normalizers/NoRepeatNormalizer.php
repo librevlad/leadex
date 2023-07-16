@@ -4,7 +4,8 @@
 namespace Librevlad\Leadex\Normalizers;
 
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class NoRepeatNormalizer extends Normalizer {
 
@@ -26,6 +27,6 @@ class NoRepeatNormalizer extends Normalizer {
 	}
 
 	protected function validate( $v ) {
-		return Validator::make( compact( 'v' ), [ 'v' => 'required|string|min:2' ] )->passes();
+		return validator( compact( 'v' ), [ 'v' => 'required|string|min:2' ] )->passes();
 	}
 }

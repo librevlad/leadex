@@ -3,7 +3,8 @@
 
 namespace Librevlad\Leadex\Normalizers;
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class ArrayNormalizer extends Normalizer {
 
@@ -12,6 +13,6 @@ class ArrayNormalizer extends Normalizer {
     }
 
     protected function validate( $v ) {
-        return Validator::make( compact( 'v' ), [ 'v' => 'required|array' ] )->passes();
+        return validator( compact( 'v' ), [ 'v' => 'required|array' ] )->passes();
     }
 }

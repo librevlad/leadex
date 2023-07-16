@@ -4,7 +4,8 @@
 namespace Librevlad\Leadex\Normalizers;
 
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class ZipNormalizer extends Normalizer {
 
@@ -13,6 +14,6 @@ class ZipNormalizer extends Normalizer {
     }
 
     protected function validate( $v ) {
-        return Validator::make( compact( 'v' ), [ 'v' => 'required|numeric' ] )->passes();
+        return validator( compact( 'v' ), [ 'v' => 'required|numeric' ] )->passes();
     }
 }

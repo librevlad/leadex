@@ -30,6 +30,5 @@ abstract class BaseDTO {
     public function __construct( $data ) {
         $this->data = $data;
         $this->data = $this->getNormalizer()->getNormalized();
-        //        dump( 'thisdata', $data, '/+/', $this->data, '/-' );
     }
 }

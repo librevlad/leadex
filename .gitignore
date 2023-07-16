@@ -2,3 +2,6 @@
 vendor
 build
 .phpunit.result.cache
+tests/**.txt
+tests/**.csv
+tester.php

@@ -30,12 +30,12 @@ class PhoneNormalizer extends Normalizer {
 		}
 
 		if ( strlen( $phone ) == 11 ) {
-			if ( Str::startsWith( $phone, '89' ) ) {
+			if ( str_starts_with( $phone, '89' ) ) {
 				return (int) '79' . mb_substr( $phone, 2 );
 			}
 		}
 		if ( strlen( $phone ) == 10 ) {
-			if ( Str::startsWith( $phone, '9' ) ) {
+			if ( str_starts_with( $phone, '9' ) ) {
 				return (int) '7' . $phone;
 			}
 		}
@@ -47,10 +47,11 @@ class PhoneNormalizer extends Normalizer {
 			return null;
 		}
 
+		var_dump($phone);
 		return (int) $phone;
 	}
 
 	protected function validate( $phone ) {
-		return ( mb_strlen( $phone ) == 11 ) && Str::startsWith( $phone, '79' );
+		return ( mb_strlen( $phone ) == 11 ) && str_starts_with( $phone, '79' );
 	}
 }

@@ -4,7 +4,8 @@
 namespace Librevlad\Leadex\Normalizers;
 
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class StreetAddressNormalizer extends Normalizer {
 
@@ -13,6 +14,6 @@ class StreetAddressNormalizer extends Normalizer {
     }
 
     protected function validate( $v ) {
-        return Validator::make( compact( 'v' ), [ 'v' => 'required|min:2|max:256' ] )->passes();
+        return validator( compact( 'v' ), [ 'v' => 'required|min:2|max:256' ] )->passes();
     }
 }

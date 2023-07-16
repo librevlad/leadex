@@ -4,7 +4,8 @@
 namespace Librevlad\Leadex\Normalizers;
 
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class DummyNormalizer extends Normalizer {
 
@@ -13,6 +14,6 @@ class DummyNormalizer extends Normalizer {
     }
 
     protected function validate( $email ) {
-        return Validator::make( compact( 'email' ), [ 'email' => 'required' ] )->passes();
+        return validator( compact( 'email' ), [ 'email' => 'required' ] )->passes();
     }
 }

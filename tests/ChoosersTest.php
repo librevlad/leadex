@@ -7,7 +7,7 @@ use Librevlad\Leadex\Choosers\StringChooser;
 use Librevlad\Leadex\Normalizers\EmailNormalizer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Librevlad\Leadex\Tests\TestCase;
 
 class ChoosersTest extends TestCase {
     /**

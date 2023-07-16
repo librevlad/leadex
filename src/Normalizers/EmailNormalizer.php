@@ -4,7 +4,8 @@
 namespace Librevlad\Leadex\Normalizers;
 
 
-use Validator;
+use Illuminate\Validation\Validator;
+
 
 class EmailNormalizer extends Normalizer {
 
@@ -22,15 +23,14 @@ class EmailNormalizer extends Normalizer {
 					'ya.ru',
 					'test.ru',
 				] ) ) {
-					return null;
+//					return null;
 				}
 
 				try {
-					$host = explode( '.', $parts[ 1 ] );
-
-					if ( strlen( $host ) < 5 ) {
-						return null;
-					}
+//					$host = explode( '.', $parts[ 1 ] );
+//					if ( strlen( $host[0] ) < 5 ) {
+//						return null;
+//					}
 
 				}
 				catch ( \Exception $e ) {
@@ -48,6 +48,6 @@ class EmailNormalizer extends Normalizer {
 	}
 
 	protected function validate( $email ) {
-		return Validator::make( compact( 'email' ), [ 'email' => 'required|email' ] )->passes();
+		return validator( compact( 'email' ), [ 'email' => 'required|email' ] )->passes();
 	}
 }
