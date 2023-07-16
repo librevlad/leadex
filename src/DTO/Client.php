@@ -30,6 +30,9 @@ class Client {
 	public function __construct( $data = null ) {
 
 		$birthday  = new Birthday( null );
+		$birth_year  = new BirthYear( null );
+		$inn  = new Inn( null );
+		$snils  = new Snils( null );
 		$fios      = new FioCollection();
 		$phones    = new PhoneCollection();
 		$emails    = new EmailCollection();
