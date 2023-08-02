@@ -319,7 +319,7 @@ class Client {
 
 	public function get( $what = null ) {
 		if ( $what ) {
-			return $this->data[ $what ];
+			return $this->data[ $what ] ?? null;
 		}
 
 		return $this->data;
