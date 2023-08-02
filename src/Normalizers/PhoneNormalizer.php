@@ -47,7 +47,7 @@ class PhoneNormalizer extends Normalizer {
 			return null;
 		}
 
-		var_dump($phone);
+		//var_dump($phone);
 		return (int) $phone;
 	}
 
